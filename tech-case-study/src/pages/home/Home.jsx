@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CardItem from "../../components/CardItem";
 import { Sidebar } from "flowbite-react";
 import Category from "../../components/Category";
+import NavbarComponent from "../../components/NavbarContainer";
 
 function Home() {
     const { currentUser } = useAuth();
@@ -60,6 +61,9 @@ function Home() {
 
     return (
         <div className="w-full">
+            <div className="navbar-wrapper">
+                <NavbarComponent />
+            </div>
             <div className="cards-wrapper w-full flex">
                 <div className="left-bar w-1/6 h-fit">
                     <Sidebar>

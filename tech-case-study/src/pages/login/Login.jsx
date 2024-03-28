@@ -12,7 +12,6 @@ function Login() {
         e.preventDefault();
         try {
             await login(usernameRef.current.value, passwordRef.current.value);
-            navigate("/");
         } catch (error) {
             console.log(error);
         }
