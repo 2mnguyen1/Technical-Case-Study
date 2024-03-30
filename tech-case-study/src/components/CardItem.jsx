@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, Badge } from "flowbite-react";
 function CardItem({ item }) {
-    const qualities = Array.from({ length: 30 }, (_, index) => index + 1);
     return (
         <div>
             <Card style={{ height: "500px" }}>
