@@ -18,7 +18,6 @@ function OneProduct() {
         }
         getProduct();
     }, []);
-    console.log(product);
     return (
         <div className="one-product-container h-screen overflow-hidden	">
             <NavbarContainer />
@@ -86,7 +85,7 @@ function OneProduct() {
                             </div>
                             <div className="button-add-to-card flex gap-2">
                                 <select className="rounded-lg" required>
-                                    {qualities.map((item, index) => {
+                                    {qualities.map((_, index) => {
                                         return <option>Quality: {index + 1}</option>;
                                     })}
                                 </select>
