@@ -80,7 +80,7 @@ function NavbarContainer({ sendDataToParent }) {
 
           <div className='flex md:order-2'>
             <svg
-              onClick={() => navigate("/cart")}
+              onClick={() => navigate("/cart/n/0")}
               className='relative w-10 h-10 bg-gray-100 rounded-full p-2 hover:bg-gray-100 cursor-pointer mr-5 mt-1'
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 64 64'
@@ -91,12 +91,7 @@ function NavbarContainer({ sendDataToParent }) {
                 <path d='m21.3 38.8-.6-2.7 31.9-6.6V18.2h-33v-2.8H54c.8 0 1.4.6 1.4 1.4v13.8c0 .7-.5 1.2-1.1 1.3l-33 6.9M49.9 54c-3 0-5.5-2.5-5.5-5.5s2.5-5.5 5.5-5.5 5.5 2.5 5.5 5.5-2.5 5.5-5.5 5.5zm0-8.3c-1.5 0-2.8 1.2-2.8 2.8s1.2 2.8 2.8 2.8 2.8-1.2 2.8-2.8-1.3-2.8-2.8-2.8zm-33 8.3c-3 0-5.5-2.5-5.5-5.5s2.5-5.5 5.5-5.5 5.5 2.5 5.5 5.5-2.5 5.5-5.5 5.5zm0-8.3c-1.5 0-2.8 1.2-2.8 2.8s1.2 2.8 2.8 2.8 2.8-1.2 2.8-2.8-1.3-2.8-2.8-2.8z'></path>
               </g>
             </svg>
-            <span
-              className='absolute top-2 w-4 h-4 bg-red-500 rounded-full text-sm text-center flex justify-center items-center'
-              style={{ right: "70px", top: "15px" }}
-            >
-              5
-            </span>
+
             <Dropdown
               arrowIcon={false}
               inline

@@ -13,7 +13,7 @@ function App() {
         <Route exact path='/' element={<Home />} />
         <Route exact path='login' element={<Login />} />
         <Route exact path='/products/:id' element={<OneProduct />} />
-        <Route exact path='/cart/' element={<UserCard />} />
+        <Route exact path='/cart/:id/:qty' element={<UserCard />} />
         <Route render={authToken ? <Home /> : redirect("/login")} />
       </Routes>
     </div>

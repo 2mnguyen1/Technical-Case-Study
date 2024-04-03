@@ -8,119 +8,115 @@ import NavbarComponent from "../../components/NavbarContainer";
 import ItemsNotFound from "../../components/ItemsNotFound";
 
 function Home() {
-    const { currentUser } = useAuth();
-    const navigate = useNavigate();
-    const token = localStorage.getItem("userToken");
-    const [allCards, setAllCards] = useState([]);
-    const [allProducts, setAllProducts] = useState([]);
-    const [isEmpty, setIsEmpty] = useState(false);
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("userToken");
+  const [allCards, setAllCards] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false);
 
-    useEffect(() => {
-        if (!currentUser && !token) {
-            navigate("login");
-        }
-    }, [currentUser]);
+  useEffect(() => {
+    if (!currentUser && !token) {
+      navigate("login");
+    }
+  }, [currentUser]);
 
-    useEffect(() => {
-        async function getAllCards() {
-            try {
-                const res = await fetch("https://dummyjson.com/products");
-                const data = await res.json();
-                setAllCards(data.products);
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        getAllCards();
+  useEffect(() => {
+    async function getAllCards() {
+      try {
+        const res = await fetch("https://dummyjson.com/products");
+        const data = await res.json();
+        setAllCards(data.products);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getAllCards();
 
-        async function getAllProducts() {
-            try {
-                const res = await fetch(
-                    "https://dummyjson.com/products/categories"
-                );
-                const data = await res.json();
-                setAllProducts(data);
-            } catch (e) {
-                console.log(e);
-            }
-        }
-
-        getAllProducts();
-    }, []);
-
-    async function handleOnClickForCategory(category) {
-        try {
-            const res = await fetch(
-                "https://dummyjson.com/products/category/" + category
-            );
-            const data = await res.json();
-            setAllCards(data.products);
-        } catch (e) {
-            console.log(e);
-        }
+    async function getAllProducts() {
+      try {
+        const res = await fetch("https://dummyjson.com/products/categories");
+        const data = await res.json();
+        setAllProducts(data);
+      } catch (e) {
+        console.log(e);
+      }
     }
 
-    function getInputFromNavbar(data) {
-        async function getFindData() {
-            try {
-                const res = await fetch(
-                    "https://dummyjson.com/products/search?q=" + data
-                );
-                const { products } = await res.json();
-                if (products.length === 0) {
-                    setIsEmpty(true);
-                }
-                setAllCards(products);
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        getFindData();
+    getAllProducts();
+  }, []);
+
+  async function handleOnClickForCategory(category) {
+    try {
+      const res = await fetch(
+        "https://dummyjson.com/products/category/" + category
+      );
+      const data = await res.json();
+      setAllCards(data.products);
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    return (
-        <div className="w-full">
-            <div className="navbar-wrapper">
-                <NavbarComponent sendDataToParent={getInputFromNavbar} />
-            </div>
-            <div className="cards-wrapper w-full flex">
-                <div className="left-bar w-1/6 h-fit">
-                    <Sidebar>
-                        <Sidebar.ItemGroup>
-                            {allProducts.map((name, index) => {
-                                return (
-                                    <Category
-                                        key={index}
-                                        name={name}
-                                        handleOnClickForCategory={
-                                            handleOnClickForCategory
-                                        }
-                                    />
-                                );
-                            })}
-                        </Sidebar.ItemGroup>
-                    </Sidebar>
-                </div>
+  function getInputFromNavbar(data) {
+    async function getFindData() {
+      try {
+        const res = await fetch(
+          "https://dummyjson.com/products/search?q=" + data
+        );
+        const { products } = await res.json();
+        if (products.length === 0) {
+          setIsEmpty(true);
+        }
+        setAllCards(products);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getFindData();
+  }
 
-                {allCards.length !== 0 && (
-                    <div className="right-bar w-5/6 gap-3 grid grid-cols-3 p-5">
-                        {allCards.map((item, index) => {
-                            return (
-                                <div>
-                                    <CardItem key={index} item={item} />
-                                </div>
-                            );
-                        })}
-                    </div>
-                )}
-                {isEmpty && allCards.length === 0 && (
-                    <div className="right-bar w-5/6 flex flex-col items-center">
-                        <ItemsNotFound />
-                    </div>
-                )}
-            </div>
+  return (
+    <div className='w-full'>
+      <div className='navbar-wrapper'>
+        <NavbarComponent sendDataToParent={getInputFromNavbar} />
+      </div>
+      <div className='cards-wrapper w-full flex'>
+        <div className='left-bar w-1/6 h-fit'>
+          <Sidebar>
+            <Sidebar.ItemGroup>
+              {allProducts.map((name, index) => {
+                return (
+                  <Category
+                    key={index}
+                    name={name}
+                    handleOnClickForCategory={handleOnClickForCategory}
+                  />
+                );
+              })}
+            </Sidebar.ItemGroup>
+          </Sidebar>
         </div>
-    );
+
+        {allCards.length !== 0 && (
+          <div className='right-bar w-5/6 gap-3 grid grid-cols-3 p-5'>
+            {allCards.map((item, index) => {
+              return (
+                <div>
+                  <CardItem key={index} item={item} />
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {isEmpty && allCards.length === 0 && (
+          <div className='right-bar w-5/6 flex flex-col items-center'>
+            <ItemsNotFound />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Home;
