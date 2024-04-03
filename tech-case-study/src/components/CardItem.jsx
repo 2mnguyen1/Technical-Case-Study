@@ -5,11 +5,11 @@ function CardItem({ item }) {
     <div>
       <Card style={{ height: "500px" }}>
         <div className='h-full w-full flex flex-col justify-between'>
-          <div>
-            <a href={"products/" + item.id}>
+          <div className='w-full h-full'>
+            <a href={"products/" + item.id} className='flex justify-center'>
               <img
-                className='w-30 rounded-md'
-                style={{ height: "200px", objectFit: "cover" }}
+                className='w-30 rounded-md object-contain'
+                style={{ height: "200px" }}
                 src={item.images[0]}
                 alt='image 1'
               />

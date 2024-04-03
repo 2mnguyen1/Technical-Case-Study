@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function ItemInCard({ item }) {
+function ItemInCard({ item, handleChangeQuality }) {
   const navigate = useNavigate();
   const qualities = Array.from({ length: 10 }, (_, index) => index + 1);
   function handleOnClick() {
@@ -10,20 +10,31 @@ function ItemInCard({ item }) {
   return (
     <div className='cart-item w-full flex p-5 gap-5 bg-gray-100 mb-2 rounded-lg'>
       <div
-        className='item-photo w-40 h-40 hover:cursor-pointer'
+        className='item-photo w-52 h-40 hover:cursor-pointer '
         onClick={handleOnClick}
       >
-        <img src={item.thumbnail} alt='' className='rounded-lg' />
+        <img
+          src={item.thumbnail}
+          alt=''
+          className='rounded-lg w-full h-full object-contain'
+        />
       </div>
 
-      <div className='item-info'>
-        <div className='flex flex-col justify-between h-full relative'>
-          <div className='price absolute top-6'>
-            Price: $
+      <div className='item-info w-full '>
+        <div className='flex flex-col justify-between h-full relative w-1/2'>
+          <div className='price absolute top-6 w-fit '>
+            Total price: $
             <span className='font-bold'>
+              {Math.floor(
+                item.total - (item.total * item.discountPercentage) / 100
+              )}
+            </span>
+            <span className='text-sm'>
+              ($
               {Math.floor(
                 item.price - (item.price * item.discountPercentage) / 100
               )}
+              /each)
             </span>
           </div>
           <div
@@ -39,6 +50,7 @@ function ItemInCard({ item }) {
             <select
               className='rounded-lg h-9 text-sm'
               defaultValue={item.quantity}
+              onChange={(e) => handleChangeQuality(item.id, e.target.value)}
               required
             >
               {qualities.map((_, index) => {

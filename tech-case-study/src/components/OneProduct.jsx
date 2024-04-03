@@ -32,9 +32,7 @@ function OneProduct() {
                     key={index}
                     src={photo}
                     alt={index}
-                    style={{
-                      objectFit: "contain",
-                    }}
+                    className='object-contain w-full h-full'
                   />
                 );
               })}
