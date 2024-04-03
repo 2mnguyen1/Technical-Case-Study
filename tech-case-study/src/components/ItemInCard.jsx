@@ -21,7 +21,7 @@ function ItemInCard({ item, handleChangeQuality }) {
       </div>
 
       <div className='item-info w-full '>
-        <div className='flex flex-col justify-between h-full relative w-1/2'>
+        <div className='flex flex-col justify-between h-full relative'>
           <div className='price absolute top-6 w-fit '>
             Total price: $
             <span className='font-bold'>

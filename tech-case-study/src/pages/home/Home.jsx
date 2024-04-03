@@ -82,7 +82,7 @@ function Home() {
         <NavbarComponent sendDataToParent={getInputFromNavbar} />
       </div>
       <div className='cards-wrapper w-full flex'>
-        <div className='left-bar w-1/6 h-fit'>
+        <div className='left-bar w-1/6 h-fit mt-5 rounded-r-lg'>
           <Sidebar>
             <Sidebar.ItemGroup>
               {allProducts.map((name, index) => {

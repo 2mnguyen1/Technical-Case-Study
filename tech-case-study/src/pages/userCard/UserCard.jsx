@@ -43,12 +43,14 @@ function UserCard() {
   async function handleChangeQuality(itemId, quantity) {
     for (let i = 0; i < userCard.products.length; i++) {
       if (userCard.products[i].id === itemId) {
+        // update total quantity
         userCard.totalQuantity +=
           parseInt(quantity) - userCard.products[i].quantity;
-
+        // update total
         userCard.total +=
           (parseInt(quantity) - userCard.products[i].quantity) *
           userCard.products[i].price;
+        // update discounted total
         userCard.discountedTotal += parseInt(
           (parseInt(quantity) - userCard.products[i].quantity) *
             userCard.products[i].price -
@@ -57,14 +59,24 @@ function UserCard() {
               userCard.products[i].discountPercentage) /
               100
         );
+        // update product quantity
         userCard.products[i].quantity = quantity;
+        // update item total price
+        userCard.products[i].total =
+          userCard.products[i].quantity * userCard.products[i].price;
+        // update item discounted total price
+        userCard.products[i].discountedTotal = parseInt(
+          userCard.products[i].total -
+            (userCard.products[i].total *
+              userCard.products[i].discountPercentage) /
+              100
+        );
 
         setUserCard({ ...userCard });
         return;
       }
     }
   }
-
   return (
     <div>
       <NavbarContainer />
