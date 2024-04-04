@@ -11,7 +11,7 @@ function ItemsNotFound() {
     return (
         <div className="w-1/2">
             <img src={warningPhoto} alt="warning" />
-            <Alert color="warning" onDismiss={handleDismissed}>
+            <Alert color="warning" onDismiss={handleDismissed} style={{ maxWidth: "32rem"}}>
                 <span className="font-medium">Info alert!</span> Item does not
                 exist
             </Alert>

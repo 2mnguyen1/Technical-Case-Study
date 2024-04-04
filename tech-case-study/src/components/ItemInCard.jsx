@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function ItemInCard({ item, handleChangeQuality }) {
+function ItemInCard({ item, handleChangeQuality, handleDelete }) {
   const navigate = useNavigate();
   const qualities = Array.from({ length: 10 }, (_, index) => index + 1);
   function handleOnClick() {
     return navigate("/products/" + item.id);
   }
+
   return (
     <div className='cart-item w-full flex p-5 gap-5 bg-gray-100 mb-2 rounded-lg'>
       <div
@@ -63,6 +64,7 @@ function ItemInCard({ item, handleChangeQuality }) {
             </select>
             <a
               href='#'
+              onClick={() => handleDelete(item.id)}
               className='ml-5 border-x px-2 border-cyan-700 text-cyan-700 text-sm'
             >
               Delete

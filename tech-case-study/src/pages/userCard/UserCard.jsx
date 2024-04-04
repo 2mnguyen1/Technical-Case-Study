@@ -5,8 +5,9 @@ import NavbarContainer from "../../components/NavbarContainer";
 import { useParams } from "react-router-dom";
 function UserCard() {
   const { getUser } = useAuth();
-  const [userCard, setUserCard] = useState({});
+  const [userCard, setUserCard] = useState(null);
   const { id, qty } = useParams();
+  
 
   useEffect(() => {
     async function getCurrentUserCard() {
@@ -14,7 +15,23 @@ function UserCard() {
       const user = await getUser(token);
       const res = await fetch("https://dummyjson.com/carts/user/" + user.id);
       const data = await res.json();
-      if (id === "n") {
+      if (data.carts.length === 0) {
+        const addCartRes = await fetch("https://dummyjson.com/carts/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: 1,
+            products: [
+              {
+                id: id,
+                quantity: qty,
+              },
+            ],
+          }),
+        });
+        const newCart = await addCartRes.json();
+        setUserCard(newCart);
+      } else if (id === "n") {
         setUserCard(data.carts[0]);
       } else {
         getCurrentUserUpdata(data.carts[0].id);
@@ -77,33 +94,53 @@ function UserCard() {
       }
     }
   }
+  console.log(userCard);
+  async function handleDelete(itemId) {
+    userCard.products = userCard.products.filter((item) => {
+      if (item.id === itemId) {
+        userCard.discountedTotal -= item.discountedPrice;
+        userCard.total -= item.total;
+        userCard.totalProducts -= 1;
+        userCard.totalQuantity -= item.quantity;
+      }
+      return item.id !== itemId;
+    });
+    setUserCard({ ...userCard });
+  }
   return (
     <div>
-      <NavbarContainer />
-      <div className='cart-wrapper w-full h-full p-10 flex justify-center'>
-        <div className='w-2/3'>
-          {userCard.products && (
-            <div className='w-full'>
-              {userCard.products.map((item, index) => (
-                <ItemInCard
-                  key={index}
-                  item={item}
-                  handleChangeQuality={handleChangeQuality}
-                />
-              ))}
+      {userCard && <NavbarContainer numOfItems={userCard.products.length} />}
+      {userCard && (
+        <>
+          <div className='cart-wrapper w-full h-full p-10 flex justify-center'>
+            <div className='w-2/3'>
+              {userCard.products && (
+                <div className='w-full'>
+                  {userCard.products.map((item, index) => (
+                    <ItemInCard
+                      key={index}
+                      item={item}
+                      handleChangeQuality={handleChangeQuality}
+                      handleDelete={handleDelete}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div className='summary w-1/7 bg-gray-100 ml-2 flex flex-col p-5 h-fit rounded-lg'>
-          <div>
-            Subtotal ({userCard.totalProducts} items):{" "}
-            <span className='font-bold'>${userCard.discountedTotal}</span>
+            {userCard.products.length !== 0 && (
+              <div className='summary w-1/7 bg-gray-100 ml-2 flex flex-col p-5 h-fit rounded-lg'>
+                <div>
+                  Subtotal ({userCard.totalProducts} items):{" "}
+                  <span className='font-bold'>${userCard.discountedTotal}</span>
+                </div>
+                <button className='text-sm bg-yellow-300 rounded px-2 py-1'>
+                  Proceed to checkout
+                </button>
+              </div>
+            )}
           </div>
-          <button className='text-sm bg-yellow-300 rounded-lg px-2 py-1'>
-            Proceed to checkout
-          </button>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
