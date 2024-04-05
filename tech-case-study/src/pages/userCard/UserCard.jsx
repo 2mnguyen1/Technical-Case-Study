@@ -3,11 +3,12 @@ import { useAuth } from "../../context/AuthContext";
 import ItemInCard from "../../components/ItemInCard";
 import NavbarContainer from "../../components/NavbarContainer";
 import { useParams } from "react-router-dom";
+import EmptyCart from "../../components/EmptyCart";
+
 function UserCard() {
   const { getUser } = useAuth();
   const [userCard, setUserCard] = useState(null);
   const { id, qty } = useParams();
-  
 
   useEffect(() => {
     async function getCurrentUserCard() {
@@ -141,6 +142,7 @@ function UserCard() {
           </div>
         </>
       )}
+      {userCard && userCard.products.length === 0 && <EmptyCart />}
     </div>
   );
 }

@@ -17,7 +17,7 @@ function NavbarContainer({ sendDataToParent, numOfItems }) {
 
       const res = await fetch("https://dummyjson.com/carts/user/" + data.id);
       const newUserCard = await res.json();
-      setUserCard(newUserCard.carts[0]);
+      setUserCard(newUserCard?.carts[0]);
     }
     getCurrentUser();
   }, []);
@@ -30,7 +30,6 @@ function NavbarContainer({ sendDataToParent, numOfItems }) {
     e.preventDefault();
     sendDataToParent(e.target[0].value);
   }
-  console.log(userCard);
   return (
     <Navbar fluid rounded>
       {user && (
@@ -99,13 +98,20 @@ function NavbarContainer({ sendDataToParent, numOfItems }) {
             </svg>
             {userCard && (
               <span
-                className='absolute top-2 w-4 h-4 bg-red-500 rounded-full text-sm text-center flex justify-center items-center'
+                className='text-white absolute top-2 w-4 h-4 bg-red-500 rounded-full text-sm text-center flex justify-center items-center'
                 style={{ right: "70px", top: "15px" }}
               >
                 {numOfItems !== undefined
                   ? numOfItems
                   : userCard.products.length}
-                {!userCard && 0}
+              </span>
+            )}
+            {!userCard && (
+              <span
+                className='text-white absolute top-2 w-4 h-4 bg-red-500 rounded-full text-sm text-center flex justify-center items-center'
+                style={{ right: "70px", top: "15px" }}
+              >
+                {numOfItems !== undefined ? numOfItems : 0}
               </span>
             )}
             <Dropdown
